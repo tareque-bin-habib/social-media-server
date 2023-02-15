@@ -22,3 +22,16 @@ export const getUser = async (req, res) => {
 
 
 }
+
+export const updateUser = async (req, res) => {
+    const id = req.params.id
+    const { currentUserId, currentUserAdminStatus, password } = req.body
+
+    if (id === currentUserId || currentUserAdminStatus) {
+        try {
+            const user = await UserModel.findByIdAndUpdate(id, req.body, { new: true })
+        } catch (error) {
+            res.status(500).json(error)
+        }
+    }
+}
