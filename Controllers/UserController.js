@@ -1,4 +1,4 @@
-import UserModel from "../Models/userModel";
+import UserModel from "../Models/userModel.js";
 
 // get a user
 export const getUser = async (req, res) => {
@@ -7,7 +7,13 @@ export const getUser = async (req, res) => {
     try {
         const user = await UserModel.findById(id)
         if (user) {
-            res.status(200).json(user)
+
+            const { password, ...otherDetails } = user._doc
+
+            res.status(200).json(otherDetails)
+        }
+        else {
+            res.status(404).json("No such user exists")
         }
 
     } catch (error) {
